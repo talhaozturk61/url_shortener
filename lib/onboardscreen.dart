@@ -50,7 +50,7 @@ class OnBoardScreen extends StatelessWidget {
         next: const Text("Go"),
         onDone: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: ((context) =>  const UrlShortener())));
+              context, MaterialPageRoute(builder: ((context) =>   UrlShortener())));
         },
         onSkip: () {},
         showBackButton: true,
