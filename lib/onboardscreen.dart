@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:storm/firstpage.dart';
+import 'package:storm/urlshortener.dart';
 
 // ignore: must_be_immutable
 class OnBoardScreen extends StatelessWidget {
@@ -50,7 +50,7 @@ class OnBoardScreen extends StatelessWidget {
         next: const Text("Go"),
         onDone: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: ((context) => const FirstPage())));
+              context, MaterialPageRoute(builder: ((context) =>  const UrlShortener())));
         },
         onSkip: () {},
         showBackButton: true,
