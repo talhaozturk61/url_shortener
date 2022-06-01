@@ -35,7 +35,7 @@ class FirstPage extends StatelessWidget {
       body: Column(
         children: [
           ClipPath(
-            clipper: WaveClip(),
+            clipper: MyClipper(),
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: 200,
@@ -120,24 +120,20 @@ class FirstPage extends StatelessWidget {
   }
 }
 
-class WaveClip extends CustomClipper<Path> {
+class MyClipper  extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    Path path = Path();
-    final lowPoint = size.height - 20;
-    final highPoint = size.height - 40;
-
-    path.lineTo(0, size.height);
-    path.quadraticBezierTo(size.width / 4, highPoint, size.width / 2, lowPoint);
-    path.quadraticBezierTo(
-        3 / 4 * size.width, size.height, size.width, lowPoint);
+    var path =  Path();
+    path.lineTo(0, size.height - 130);
+    var controllPoint = Offset(30,size.height);
+    var endPoint = Offset(size.width / 2, size.height);
+    path.quadraticBezierTo(controllPoint.dx, controllPoint.dy, endPoint.dx, endPoint.dy);
+    path.lineTo(size.width, size.height);
     path.lineTo(size.width, 0);
-
     return path;
   }
 
   @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return false;
-  }
+  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
+  
 }
