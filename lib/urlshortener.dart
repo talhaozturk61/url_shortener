@@ -26,10 +26,9 @@ class UrlShortener extends StatelessWidget {
 
   final MyController c = Get.put(MyController());
   final controller = TextEditingController();
- 
+
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -58,7 +57,62 @@ class UrlShortener extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
-                
+                final shortenedUrl = await shortenUrl(url: controller.text);
+                if (shortenedUrl != null) {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Url Shortened Successfully'),
+                          content: SizedBox(
+                            height: 100,
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () async {},
+                                      child: Container(
+                                        color: Colors.grey.withOpacity(.2),
+                                        child: Text(shortenedUrl),
+                                      ),
+                                    ),
+                                    Flexible(
+                                      child: IconButton(
+                                          onPressed: () {
+                                            Clipboard.setData(ClipboardData(
+                                                    text: shortenedUrl))
+                                                .then((_) => ScaffoldMessenger
+                                                        .of(context)
+                                                    .showSnackBar(const SnackBar(
+                                                        content: Text(
+                                                            'Urls is copied to the clipboard'))));
+                                          },
+                                          icon: const Icon(Icons.copy)),
+                                    )
+                                  ],
+                                ),
+                                ElevatedButton.icon(
+                                    onPressed: () {
+                                      controller.clear();
+                                      Navigator.pop(context);
+                                    },
+                                    icon: const Icon(Icons.close),
+                                    label: const Text('Close'))
+                              ],
+                            ),
+                          ),
+                        );
+                      });
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Please provide a url',
+                        style: TextStyle(color: Colors.red)),
+                  ));
+                }
+                controller.text.obs == c.myurl;
+                c.addlist(c.myurl.value);
+                print(c.mylist.length);
               },
               child: const Text('Shorten url'),
             ),
@@ -71,8 +125,9 @@ class UrlShortener extends StatelessWidget {
                 IconButton(
                     onPressed: () {
                       c.increment();
-                     // c.addlist('')
-;                    },
+                      // c.addlist('')
+                      ;
+                    },
                     icon: Icon(Icons.add)),
                 IconButton(
                     onPressed: () {
@@ -87,7 +142,7 @@ class UrlShortener extends StatelessWidget {
                 child: Obx((() => ListView.builder(
                       itemCount: c.mylist.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return Obx(() => Text(c.myurl.value,
+                        return Obx(() => Text('${c.myurl.toString()}',
                             style:
                                 TextStyle(color: Colors.black, fontSize: 18)));
                       },
